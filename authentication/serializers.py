@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import User,TeamLeader,TeamMember
-
+from django.contrib import auth
+from django.contrib.auth import login
+from rest_framework.exceptions import AuthenticationFailed
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
@@ -28,4 +30,14 @@ class RegisterSerializer(serializers.ModelSerializer):
             return TeamLeader.objects.create_user(**attrs)
         if attrs.get('role','')=='3':
             return TeamMember.objects.create_user(**attrs)
-    
+
+
+class LoginSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(max_length=255,min_length=3,read_only=True)
+    username = serializers.CharField(max_length=255,min_length=3)
+    password = serializers.CharField(max_length=68,min_length=4,write_only=True)
+    tokens = serializers.CharField(max_length=68,min_length=6,read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['email','username','password','tokens']

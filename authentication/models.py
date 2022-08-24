@@ -1,5 +1,8 @@
+from os import access
+from typing_extensions import Required
 from django.db import models
 from django.contrib.auth.models import AbstractUser,BaseUserManager
+from rest_framework_simplejwt.tokens import RefreshToken
 
 class User(AbstractUser):
     class Roles(models.TextChoices):
@@ -14,6 +17,14 @@ class User(AbstractUser):
         if not self.pk:
             self.role = self.base_role
             return super().save(*args,**kwargs)
+    
+    def tokens(self):
+        tokens = RefreshToken.for_user(self)
+        return {
+            'refresh':str(tokens),
+            'access': str(tokens.access_token)
+        }
+
 
 class TeamLeaderManager(BaseUserManager):
     def get_queryset(self,*args, **kwargs):
@@ -30,6 +41,7 @@ class TeamLeader(User):
 
     def welcome(self):
         return "only for Team Leader"
+
 
 class TeamMemberManager(BaseUserManager):
     def get_queryset(self,*args, **kwargs):
