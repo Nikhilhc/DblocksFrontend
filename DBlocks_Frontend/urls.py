@@ -19,7 +19,6 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('frontend_api/',include('frontend_api.urls')),
     path('auth/',include('authentication.urls')),
     path('task_scheduler/',include('task_scheduler.urls'))
 ]
