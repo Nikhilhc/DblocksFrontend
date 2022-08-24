@@ -130,12 +130,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = 'redis://localhost:6379'
+#CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_BROKER_URL = os.environ['REDIS_URL']
 BROKER_URL = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/kolkata'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 #SMTP settings
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
@@ -146,5 +148,11 @@ EMAIL_HOST_USER = 'nikilhc@gmail.com'
 EMAIL_HOST_PASSWORD = "vxbsgejugjcqkpze"
 DEFAULT_FROM_EMAIL = "Testing FreJun()"
 
-
-#vxbsgejugjcqkpze
+CHANNEL_LAYERS = {
+    "default":{
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG":{
+            "hosts":[os.environ.get('REDIS_URL','redis://localhost:6379')]
+        }
+    }
+}
