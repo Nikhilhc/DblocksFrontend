@@ -44,7 +44,15 @@ class CreateTask(generics.GenericAPIView):
             serializer.save()
             user_data = serializer.data
             team_leader_email = self.serializer_class.Meta.model.objects.get(id=serializer.data['id']).team.team_leader.email
-            send_mail_func.delay(email=team_leader_email)
+            team_leader_name = self.serializer_class.Meta.model.objects.get(id=serializer.data['id']).team.team_leader.username
+            task_name = self.serializer_class.Meta.model.objects.get(id=serializer.data['id']).name
+            team_name = self.serializer_class.Meta.model.objects.get(id=serializer.data['id']).team.name 
+            task_status = self.serializer_class.Meta.model.objects.get(id=serializer.data['id']).status
+            team_members = self.serializer_class.Meta.model.objects.get(id=serializer.data['id']).team.team_members
+            team_members = [i['username']for i in team_members.all().values('username')]
+            send_mail_func.delay(email=team_leader_email,team_leader_name=team_leader_name,
+                                task_name=task_name,team_name=team_name,task_status=task_status,
+                                team_members=team_members)
             return Response(user_data,status=status.HTTP_201_CREATED)
         else:
             return Response({'ret':'Only Users can create a team'},status=status.HTTP_201_CREATED)

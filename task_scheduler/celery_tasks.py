@@ -9,7 +9,14 @@ from time import sleep
 def send_mail_func(*args, **kwargs):
     print(args)
     mail_subject = "Task created"
-    message = "New task has been created for you .Please check and assign.."
+    message = """New task has been created for you .Please check the details.\n
+                    Leader Name: {}\n
+                    Task Name: {}\n
+                    Team Name: {}\n
+                    Task Status:{}\n
+                    Team Members:{}""".format(kwargs['team_leader_name'],kwargs['task_name'],
+                                            kwargs['team_name'],
+                                            kwargs['task_status'],kwargs['team_members'])
     to_email = kwargs['email']
     send_mail(
         subject = mail_subject,
