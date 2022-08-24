@@ -15,13 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from frontend_api import get_wrapper,post_wrapper
 from frontend_api import views
+from frontend_api.blog_api import BlogApi
+
 urlpatterns = [
-    path('get_wrapper',get_wrapper.get_wrapper,name='get_wrapper'),
-    path('post_wrapper',post_wrapper.post_wrapper,name='get_wrapper'),
-    path('homepage',views.HomePage,name='homepage'),
-    path('posts',views.posts,name='posts'),
-    path('posts/<slug:slug>',views.post_details,name='post_details'),
+
+    path('get_wrapper',BlogApi.blog_display)
 
 ]
