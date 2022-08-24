@@ -43,3 +43,9 @@ class UpdateTaskSerializerMember(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = ['status']
+
+
+class GetAllTaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['id','name','team','status','completed_at','started_at']

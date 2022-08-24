@@ -1,9 +1,11 @@
+from msilib.schema import AppId
 from django.shortcuts import render
 from django.http import Http404
 from rest_framework import generics,status
 from .serializers import CreateTeamSerializer, UpdateTaskSerializerMember
 from .serializers import CreateTaskSerializer
 from .serializers import UpdateTaskSerializerLeader
+from .serializers import GetAllTaskSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Task
@@ -16,6 +18,8 @@ class CreateTeam(generics.GenericAPIView):
 
     def post(self,request):
         data = request.data
+        if request.user.username=='':
+            return Response({'ret':'Please login to proceed'},status=status.HTTP_401_UNAUTHORIZED)
         if request.user.role == '1':
             serializer = self.serializer_class(data=data)
             serializer.is_valid(raise_exception=True)
@@ -32,6 +36,8 @@ class CreateTask(generics.GenericAPIView):
 
     def post(self,request):
         data = request.data
+        if request.user.username=='':
+            return Response({'ret':'Please login to proceed'},status=status.HTTP_401_UNAUTHORIZED)
         if request.user.role == '1':
             serializer = self.serializer_class(data=data)
             serializer.is_valid(raise_exception=True)
@@ -62,9 +68,20 @@ class UpdateTask(APIView):
 
     def put(self,request,pk):
         data = self.get_object(pk)
-        import ipdb;ipdb.set_trace
+        if request.user.username=='':
+            return Response({'ret':'Please login to proceed'},status=status.HTTP_401_UNAUTHORIZED)
         serializer = UpdateTaskSerializerMember(data,data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
         user_data = serializer.data
         return Response(user_data,status=status.HTTP_201_CREATED)
+
+
+class GetAllTasksApi(APIView):
+
+    serializer_class = GetAllTaskSerializer
+
+    def get(self,request):
+        data =self.serializer_class.Meta.model.objects.all()
+        serializer = self.serializer_class(data,many=True)
+        return Response(serializer.data)

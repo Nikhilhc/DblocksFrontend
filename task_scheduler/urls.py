@@ -18,10 +18,11 @@ from django.urls import path,include
 from .views import CreateTeam
 from .views import CreateTask
 from .views import UpdateTask
+from .views import GetAllTasksApi
 
 urlpatterns = [
     path('create-team',CreateTeam.as_view(),name='create_team'),
     path('create-task',CreateTask.as_view(),name='create_task'),
-    path('update-task/<int:pk>',UpdateTask.as_view(),name='update_task')
-    
+    path('update-task/<int:pk>',UpdateTask.as_view(),name='update_task'),
+    path('all-tasks',GetAllTasksApi.as_view(),name='all_tasks')
 ]
