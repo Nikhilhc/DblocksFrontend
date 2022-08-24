@@ -1,5 +1,18 @@
 # Task Scheduler Website
-
+Installation:
+  git clone 
+  python -m venv testing
+  testing/scripts/activate
+  pip install -r requirements.txt
+  Comment out these below lines in setings.py files
+        CHANNEL_LAYERS = {
+          "default":{
+              "BACKEND": "channels_redis.core.RedisChannelLayer",
+              "CONFIG":{
+                  "hosts":[os.environ.get('REDIS_URL','redis://localhost:6379')]
+              }
+          }
+      }
 Use Token Authentication for all the APIs provided by DRF.
   Login credentials for testing: username:admin, password:admin
   1. For login api url: In local:http://127.0.0.1:8000/auth/login   In Server: https://freejuntask.herokuapp.com/auth/login
