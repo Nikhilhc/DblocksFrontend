@@ -21,7 +21,7 @@ class CreateTeamSerializer(serializers.ModelSerializer):
 class CreateTaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
-        fields = ['name','team']
+        fields = ['id','name','team']
     
     def validate(self,attrs):
         name = attrs.get('name','')

@@ -8,6 +8,7 @@ from .serializers import GetAllTaskSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import Task
+from .celery_tasks import send_mail_func
 # Create your views here.
 
 
@@ -42,6 +43,9 @@ class CreateTask(generics.GenericAPIView):
             serializer.is_valid(raise_exception=True)
             serializer.save()
             user_data = serializer.data
+            team_leader_email = self.serializer_class.Meta.model.objects.get(id=serializer.data['id']).team.team_leader.email
+            import ipdb;ipdb.set_trace()
+            send_mail_func.delay(email=team_leader_email)
             return Response(user_data,status=status.HTTP_201_CREATED)
         else:
             return Response({'ret':'Only Users can create a team'},status=status.HTTP_201_CREATED)
@@ -81,6 +85,8 @@ class GetAllTasksApi(APIView):
     serializer_class = GetAllTaskSerializer
 
     def get(self,request):
+        
+        print('sent')
         data =self.serializer_class.Meta.model.objects.all()
         serializer = self.serializer_class(data,many=True)
         return Response(serializer.data)

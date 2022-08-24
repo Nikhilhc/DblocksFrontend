@@ -38,3 +38,5 @@ djangorestframework
 ipdb
 djangorestframework-simplejwt
 typing_extensions
+celery
+redis
