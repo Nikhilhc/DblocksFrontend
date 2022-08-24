@@ -1,9 +1,9 @@
 # Task Scheduler Website
-Installation:
-  git clone -b Nikhilhc_Start https://github.com/Nikhilhc/DblocksFrontend.git
-  python -m venv testing
+**Installation: **                                                                                         
+  git clone -b Nikhilhc_Start https://github.com/Nikhilhc/DblocksFrontend.git                                                          
+  python -m venv testing                                                               
   testing/scripts/activate
-  pip install -r requirements.txt
+  pip install -r requirements.txt                                                            
   Comment out these below lines in setings.py files
         CHANNEL_LAYERS = {
           "default":{
@@ -12,10 +12,11 @@ Installation:
                   "hosts":[os.environ.get('REDIS_URL','redis://localhost:6379')]
               }
           }
-      }
-   run redis in your local: redis-server
-   run this celery command in another terminal :celery -A DBlocks_Frontend.celery worker --pool=solo -l info
-   Finally :python manage.py runserver
+      }                                                                             
+   run redis in your local: redis-server                                                                          
+   run this celery command in another terminal :celery -A DBlocks_Frontend.celery worker --pool=solo -l info                                                         
+   Finally :python manage.py runserver                                                                    
+                                          
 Use Token Authentication for all the APIs provided by DRF.
   Login credentials for testing: username:admin, password:admin
   1. For login api url: In local:http://127.0.0.1:8000/auth/login   In Server: https://freejuntask.herokuapp.com/auth/login
