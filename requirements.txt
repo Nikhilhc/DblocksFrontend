@@ -37,3 +37,4 @@ psycopg2
 djangorestframework
 ipdb
 djangorestframework-simplejwt
+typing_extensions
