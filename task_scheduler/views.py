@@ -44,7 +44,6 @@ class CreateTask(generics.GenericAPIView):
             serializer.save()
             user_data = serializer.data
             team_leader_email = self.serializer_class.Meta.model.objects.get(id=serializer.data['id']).team.team_leader.email
-            import ipdb;ipdb.set_trace()
             send_mail_func.delay(email=team_leader_email)
             return Response(user_data,status=status.HTTP_201_CREATED)
         else:
