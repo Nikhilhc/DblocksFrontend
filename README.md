@@ -56,6 +56,8 @@ Retrieve Tasks API
 - Retrieve a list of all tasks (all fields of Task model included)
 ![image](https://user-images.githubusercontent.com/34531929/186474697-55db6e6a-49d1-4f72-8084-ca1ac30a103e.png)
 
+To LogOut:
+  In Local: http://127.0.0.1:8000/auth/logout   In Server: https://freejuntask.herokuapp.com/auth/logout
    
 
 
