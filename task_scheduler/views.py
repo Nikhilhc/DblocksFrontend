@@ -1,4 +1,3 @@
-from msilib.schema import AppId
 from django.shortcuts import render
 from django.http import Http404
 from rest_framework import generics,status
